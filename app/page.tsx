@@ -74,7 +74,7 @@ export default function Home() {
         <section id="home" className="relative">
           <div className="absolute inset-0 z-0">
             <Image
-              src="/placeholder.svg?height=800&width=1600"
+              src="/about-gym3.jpg?height=800&width=1600"
               alt="Gym background"
               fill
               className="object-cover brightness-50"
@@ -271,7 +271,7 @@ export default function Home() {
                   {[
                     {
                       title: "HIIT Circuit",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic4.jpg?height=300&width=400",
                       category: "Cardio",
                       duration: "45 min",
                       level: "Intermediate",
@@ -280,7 +280,7 @@ export default function Home() {
                     },
                     {
                       title: "Power Lifting",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic2.jpg?height=300&width=400",
                       category: "Strength",
                       duration: "60 min",
                       level: "Advanced",
@@ -288,7 +288,7 @@ export default function Home() {
                     },
                     {
                       title: "Vinyasa Flow",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic11.jpg?height=300&width=400",
                       category: "Yoga",
                       duration: "60 min",
                       level: "All Levels",
@@ -296,7 +296,7 @@ export default function Home() {
                     },
                     {
                       title: "Spin Class",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic10.jpg?height=300&width=400",
                       category: "Cardio",
                       duration: "45 min",
                       level: "All Levels",
@@ -305,7 +305,7 @@ export default function Home() {
                     },
                     {
                       title: "Core Strength",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic3.jpg?height=300&width=400",
                       category: "Strength",
                       duration: "30 min",
                       level: "All Levels",
@@ -313,7 +313,7 @@ export default function Home() {
                     },
                     {
                       title: "Meditation",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic6.jpg?height=300&width=400",
                       category: "Yoga",
                       duration: "30 min",
                       level: "All Levels",
@@ -363,7 +363,7 @@ export default function Home() {
                   {[
                     {
                       title: "HIIT Circuit",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic4.jpg?height=300&width=400",
                       category: "Cardio",
                       duration: "45 min",
                       level: "Intermediate",
@@ -372,7 +372,7 @@ export default function Home() {
                     },
                     {
                       title: "Spin Class",
-                      image: "/placeholder.svg?height=300&width=400",
+                      image: "/pic10.jpg?height=300&width=400",
                       category: "Cardio",
                       duration: "45 min",
                       level: "All Levels",
@@ -578,25 +578,25 @@ export default function Home() {
                 {
                   name: "Alex Johnson",
                   role: "Head Trainer",
-                  image: "/placeholder.svg?height=400&width=400",
+                  image: "/trainer1.png?height=400&width=400",
                   specialties: ["Strength Training", "Nutrition", "Weight Loss"],
                 },
                 {
-                  name: "Sarah Williams",
+                  name: "John Doe",
                   role: "Yoga Instructor",
-                  image: "/placeholder.svg?height=400&width=400",
+                  image: "/trainer5.png?height=400&width=400",
                   specialties: ["Vinyasa Yoga", "Meditation", "Flexibility"],
                 },
                 {
                   name: "Mike Thompson",
                   role: "HIIT Specialist",
-                  image: "/placeholder.svg?height=400&width=400",
+                  image: "/trainer3.png?height=400&width=400",
                   specialties: ["Cardio", "Circuit Training", "Athletic Performance"],
                 },
                 {
-                  name: "Emma Davis",
+                  name: "Jhon Daniels",
                   role: "Nutrition Coach",
-                  image: "/placeholder.svg?height=400&width=400",
+                  image: "/trainer7.png?height=400&width=400",
                   specialties: ["Meal Planning", "Weight Management", "Sports Nutrition"],
                 },
               ].map((trainer, index) => (
@@ -643,7 +643,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Basic</CardTitle>
                   <div className="mt-4 flex items-baseline text-5xl font-bold">
-                    $29<span className="ml-1 text-xl font-normal text-muted-foreground">/month</span>
+                    Rs 7,000<span className="ml-1 text-xl font-normal text-muted-foreground">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1">
@@ -670,7 +670,7 @@ export default function Home() {
                   <div className="text-sm font-medium uppercase">Most Popular</div>
                   <CardTitle className="mt-2">Premium</CardTitle>
                   <div className="mt-4 flex items-baseline text-5xl font-bold">
-                    $59<span className="ml-1 text-xl font-normal opacity-80">/month</span>
+                    Rs 12,000<span className="ml-1 text-xl font-normal opacity-80">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1">
@@ -698,7 +698,7 @@ export default function Home() {
                 <CardHeader>
                   <CardTitle>Elite</CardTitle>
                   <div className="mt-4 flex items-baseline text-5xl font-bold">
-                    $99<span className="ml-1 text-xl font-normal text-muted-foreground">/month</span>
+                    Rs 18,000<span className="ml-1 text-xl font-normal text-muted-foreground">/month</span>
                   </div>
                 </CardHeader>
                 <CardContent className="flex-1">
@@ -725,7 +725,7 @@ export default function Home() {
               </Card>
             </div>
             <div className="mt-12 text-center">
-              <p className="mb-4 text-muted-foreground">Not ready to commit? Try our day pass for $15</p>
+              <p className="mb-4 text-muted-foreground">Not ready to commit? Try our day pass for Rs 1000</p>
               <Button variant="outline">Purchase Day Pass</Button>
             </div>
           </div>
