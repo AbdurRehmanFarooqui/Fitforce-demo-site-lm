@@ -1,13 +1,15 @@
 "use client"
+import { useEffect } from "react"
 import { Moon, Sun } from "lucide-react"
 import { useTheme } from "next-themes"
-
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export function ThemeToggle() {
   const { setTheme, theme } = useTheme()
-  setTheme("dark") // Ensure the theme is set to dark initially
+  useEffect(() => {
+    setTheme("dark") // Ensure the theme is set to dark initially
+  },[]);
 
   return (
     <DropdownMenu>
@@ -21,7 +23,7 @@ export function ThemeToggle() {
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+        {/* <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   )
