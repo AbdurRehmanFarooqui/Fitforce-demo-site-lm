@@ -12,8 +12,6 @@ import Footer from '@/components/footer'
 export default function Home() {
   return (
     <div className="flex min-h-screen flex-col">
-      {/* Navigation */}
-      <Header />
 
 
       <main className="flex-1">
@@ -43,8 +41,6 @@ export default function Home() {
 
       </main>
 
-      {/* Footer */}
-      <Footer />
 
     </div>
   )

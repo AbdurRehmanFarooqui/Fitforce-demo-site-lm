@@ -103,7 +103,7 @@ const Testimonials = () => {
           ))}
         </div>
 
-        <motion.div 
+        {/* <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="mt-16 text-center"
@@ -114,7 +114,7 @@ const Testimonials = () => {
           >
             View All Transformation Stories
           </Button>
-        </motion.div>
+        </motion.div> */}
       </div>
     </section>
   );

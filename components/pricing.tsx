@@ -1,12 +1,14 @@
 "use client";
 
-import React from 'react';
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
-
+import React, { useState } from 'react';
+import { useUser } from "@/hooks/use-user";
+import { useAuthStore } from "@/hooks/use-auth-store";
+import { toast } from "sonner";
 const PLANS = [
   {
     name: "Starter",
@@ -14,6 +16,7 @@ const PLANS = [
     description: "Perfect for casual gym-goers",
     features: ["Access to gym floor", "Locker room access", "Basic orientation", "1 Guest pass/month"],
     highlight: false,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_STARTER_PRICE_ID,
   },
   {
     name: "Pro",
@@ -21,6 +24,7 @@ const PLANS = [
     description: "The choice of champions",
     features: ["24/7 Gym access", "All group classes", "Personalized workout plan", "Unlimited guest passes", "Sauna & Steam room"],
     highlight: true,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRO_PRICE_ID,
   },
   {
     name: "Elite",
@@ -28,10 +32,46 @@ const PLANS = [
     description: "For those who want it all",
     features: ["Private coaching (2/mo)", "Nutrition planning", "Free supplements discount", "Recovery zone access", "Free laundry service"],
     highlight: false,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_ELITE_PRICE_ID,
   },
 ];
 
 const Pricing = () => {
+  const { user } = useUser();
+    const openAuth = useAuthStore((state) => state.openModal);
+    const [isRedirecting, setIsRedirecting] = useState(false);
+
+    const handleSelectPlan = async (priceId: string) => {
+        // 1. Check if logged in
+        if (!user) {
+            toast.info("Please create an account to continue");
+            openAuth("signup");
+            return;
+        }
+
+        setIsRedirecting(true);
+
+        try {
+            // 2. Call our Stripe Checkout API
+            const response = await fetch('/api/checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ priceId }),
+            });
+
+            const data = await response.json();
+
+            if (data.url) {
+                // 3. Redirect to Stripe's secure checkout page
+                window.location.href = data.url;
+            } else {
+                throw new Error(data.error || "Failed to create checkout session");
+            }
+        } catch (error: any) {
+            toast.error(error.message);
+            setIsRedirecting(false);
+        }
+    };
   return (
     <section id="pricing" className="py-24 bg-background relative overflow-hidden">
         {/* Subtle Background Glow */}
@@ -96,8 +136,10 @@ const Pricing = () => {
                       ? "bg-primary hover:bg-primary/90 shadow-lg shadow-primary/20" 
                       : "bg-gray-100 text-black hover:bg-gray-300"
                     }`}
+                    onClick={() => handleSelectPlan(plan.stripePriceId??"")}
+                    disabled={isRedirecting}
                   >
-                    Select Plan
+                    {isRedirecting ? "Redirecting..." : "Select Plan"}
                   </Button>
                 </CardFooter>
               </Card>

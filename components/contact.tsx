@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -12,7 +12,7 @@ const Contact = () => {
         <section id="contact" className="py-24 bg-background overflow-hidden">
             <div className="container px-4">
                 <div className="mb-16 text-center">
-                    <motion.h2 
+                    <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         className="text-4xl md:text-6xl font-black uppercase italic tracking-tighter"
@@ -39,43 +39,7 @@ const Contact = () => {
                                 </CardDescription>
                             </CardHeader>
                             <CardContent>
-                                <form className="space-y-6">
-                                    <div className="grid gap-4 sm:grid-cols-2">
-                                        <div className="space-y-2">
-                                            <label className="text-xs font-black uppercase tracking-widest text-primary">First Name</label>
-                                            <input
-                                                className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                                placeholder="Enter first name"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <label className="text-xs font-black uppercase tracking-widest text-primary">Last Name</label>
-                                            <input
-                                                className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                                placeholder="Enter last name"
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-black uppercase tracking-widest text-primary">Email Address</label>
-                                        <input
-                                            type="email"
-                                            className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                            placeholder="your@email.com"
-                                        />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <label className="text-xs font-black uppercase tracking-widest text-primary">Message</label>
-                                        <textarea
-                                            className="w-full bg-background border-white/10 rounded-md p-3 text-sm min-h-[120px] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
-                                            placeholder="How can we help you reach your goals?"
-                                        />
-                                    </div>
-                                    <Button className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-black uppercase italic tracking-widest text-lg group">
-                                        Send Message 
-                                        <Send className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                                    </Button>
-                                </form>
+                                <ContactForm />
                             </CardContent>
                         </Card>
                     </motion.div>
@@ -131,3 +95,119 @@ const Contact = () => {
 }
 
 export default Contact;
+
+function ContactForm() {
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
+    const [email, setEmail] = useState('')
+    const [message, setMessage] = useState('')
+    const [loading, setLoading] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const [error, setError] = useState<string | null>(null)
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+        setSuccess(false)
+
+        try {
+            const res = await fetch('/api/contact', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    email: email,
+                    message: message,
+                }),
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                const errorMsg = typeof data?.error === 'string' 
+                    ? data.error 
+                    : typeof data?.error === 'object' && data.error?.message
+                    ? data.error.message
+                    : 'Failed to send message'
+                setError(errorMsg)
+            } else {
+                setSuccess(true)
+                setFirstName('')
+                setLastName('')
+                setEmail('')
+                setMessage('')
+            }
+            console.log({ res, data })
+            console.log({ firstName, lastName, email, message })
+        } catch (err) {
+            setError((err as Error).message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid gap-4 sm:grid-cols-2">
+                    <div className="space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-primary">First Name</label>
+                        <input
+                            value={firstName}
+                            onChange={(e) => setFirstName(e.target.value)}
+                            name="firstName"
+                            className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                            placeholder="Enter first name"
+                        />
+                    </div>
+                    <div className="space-y-2">
+                        <label className="text-xs font-black uppercase tracking-widest text-primary">Last Name</label>
+                        <input
+                            value={lastName}
+                            onChange={(e) => setLastName(e.target.value)}
+                            name="lastName"
+                            className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                            placeholder="Enter last name"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-primary">Email Address</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        name="email"
+                        required
+                        className="w-full bg-background border-white/10 rounded-md p-3 text-sm focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                        placeholder="your@email.com"
+                    />
+                </div>
+
+                <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-primary">Message</label>
+                    <textarea
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        name="message"
+                        className="w-full bg-background border-white/10 rounded-md p-3 text-sm min-h-[120px] focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                        placeholder="How can we help you reach your goals?"
+                    />
+                </div>
+
+                <div>
+                    <Button type="submit" className="w-full h-14 bg-primary hover:bg-primary/90 text-white font-black uppercase italic tracking-widest text-lg group" disabled={loading}>
+                        {loading ? 'Sending…' : 'Send Message'}
+                        <Send className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                    </Button>
+                </div>
+
+                {success && <p className="text-sm text-green-400">Message sent — we will be in touch.</p>}
+                {error && <p className="text-sm text-red-400">{error}</p>}
+            </form>
+        </>
+    )
+}

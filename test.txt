@@ -1,0 +1,28 @@
+const SUPABASE_URL = "https://url.supabase.co"; 
+const ANON_KEY = "my-key";
+
+const testData = {
+  first_name: "Test",
+  last_name: "User",
+  email: "console_test@fitforce.com",
+  message: "Testing RLS directly from the browser!"
+};
+
+fetch(`${SUPABASE_URL}/rest/v1/Leads`, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'apikey': ANON_KEY,
+    'Authorization': `Bearer ${ANON_KEY}`,
+    'Prefer': 'return=minimal' // This tells Supabase just to give a status code back
+  },
+  body: JSON.stringify(testData)
+})
+.then(response => {
+  if (response.ok) {
+    console.log("✅ SUCCESS! Your RLS policy is working perfectly.");
+  } else {
+    response.json().then(err => console.error("❌ FAILED:", response.status, err));
+  }
+})
+.catch(error => console.error("❌ NETWORK ERROR:", error));

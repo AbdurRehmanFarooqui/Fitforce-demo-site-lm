@@ -4,8 +4,25 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Zap, ArrowRight } from "lucide-react";
+import { useAuthStore } from "@/hooks/use-auth-store";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/hooks/use-user";
 
 const CTA = () => {
+    const openAuth = useAuthStore((state) => state.openModal);
+    const router = useRouter();
+    const { user } = useUser();
+    
+    const handleAction = () => {
+        if (!user) {
+            // If not logged in, trigger global signup modal
+            openAuth("signup");
+        } else {
+            // If logged in, send them straight to the dashboard to start
+            router.push('/dashboard');
+        }
+    };
+
     return (
         <section className="relative py-24 md:py-32 overflow-hidden bg-primary">
             {/* Background Kinetic Elements */}
@@ -39,9 +56,10 @@ const CTA = () => {
                     </p>
 
                     <div className="flex flex-col sm:flex-row justify-center gap-6 w-full max-w-md">
-                        <Button 
-                            size="lg" 
+                        <Button
+                            size="lg"
                             className="h-16 flex-1 bg-black text-white hover:bg-black/80 text-xl font-black uppercase italic tracking-tighter transition-transform hover:scale-105"
+                            onClick={handleAction}
                         >
                             Start Free Trial
                         </Button>
@@ -49,6 +67,7 @@ const CTA = () => {
                             size="lg"
                             variant="outline"
                             className="h-16 flex-1 border-white text-white hover:bg-white hover:text-primary text-xl font-black uppercase italic tracking-tighter transition-all"
+                            onClick={handleAction}
                         >
                             Schedule a Tour
                             <ArrowRight className="ml-2 h-6 w-6" />
